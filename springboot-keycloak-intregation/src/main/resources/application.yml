@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: springboot-keycloak
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/snu-prac
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+jwt:
+  auth:
+   converter:
+     resource-id: sonu-client126
+     principal-attribute: preferred_username
+
+server:
+  port: 8082
