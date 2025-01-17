@@ -19,7 +19,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .requestMatchers("/login").permitAll() // Permit unauthenticated access to /public/*
+            .antMatchers("/login").permitAll() // Permit unauthenticated access to /public/*
             .anyRequest().authenticated()  // Require authentication for other endpoints
             .and()
             .formLogin()

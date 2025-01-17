@@ -1,5 +1,6 @@
 package com.skt.educationApi.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,10 +35,13 @@ public class commonController {
 		 return ResponseEntity.ok("Hello Admin");
 }
 	
+	@Value("${main.name}")
+	public String name;
+	
 	@GetMapping("/admin1")
 	public ResponseEntity<String> getAdminDetails1() {
 			
-		 return ResponseEntity.ok("Hello Admin1");
+		 return ResponseEntity.ok("Hello Admin1 your config properties value "+name);
 		
 	}		
 }
