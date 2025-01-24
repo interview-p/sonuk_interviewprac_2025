@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: jdbc
+  cloud:
+    config:
+      server:
+        jdbc:
+            sql: SELECT config_key,config_value,label from devconfigurations where APPLICATION=? and PROFILE=? and label =?
