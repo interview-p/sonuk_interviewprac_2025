@@ -26,6 +26,16 @@ public class AESCipherService {
 	        new SecureRandom().nextBytes(iv);
 	        return new IvParameterSpec(iv);
 	    }
+	    
+	    private IvParameterSpec getIVFromBase64(String ivString) {
+	        //byte[] ivBytes = Base64.getDecoder().decode(base64IV);
+	    	byte[] ivBytes = ivString.getBytes(StandardCharsets.UTF_8);
+	        if (ivBytes.length != 16) {
+	            throw new IllegalArgumentException("IV must be 16 bytes");
+	        }
+	        return new IvParameterSpec(ivBytes);
+	    }
+
 
 	    public String decryptFromJs(String base64CipherText, String base64IV) throws Exception {
 	        byte[] cipherBytes = Base64.getDecoder().decode(base64CipherText);
@@ -42,9 +52,10 @@ public class AESCipherService {
 	    }
 
 	    
-	    public String encrypt(String plainText) throws Exception {
+	    public String encrypt(String plainText, String base64IV) throws Exception {
 	        Cipher cipher = Cipher.getInstance(AES_CIPHER);
-	        IvParameterSpec ivSpec = generateIV();
+	        //IvParameterSpec ivSpec = generateIV();
+	        IvParameterSpec ivSpec = getIVFromBase64(base64IV);
 	        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
 
 	        byte[] encrypted = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
@@ -58,13 +69,15 @@ public class AESCipherService {
 	        return Base64.getEncoder().encodeToString(ivAndEncrypted);
 	    }
 
-	    public String decrypt(String base64CipherText) throws Exception {
+	    public String decrypt(String base64CipherText,String base64IV) throws Exception {
 	        byte[] ivAndEncrypted = Base64.getDecoder().decode(base64CipherText);
 
 	        // Extract IV
-	        byte[] iv = new byte[16];
-	        System.arraycopy(ivAndEncrypted, 0, iv, 0, 16);
-	        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+	       // byte[] iv = new byte[16];
+	        //System.arraycopy(ivAndEncrypted, 0, iv, 0, 16);
+	        //IvParameterSpec ivSpec = new IvParameterSpec(iv);
+	        
+	        IvParameterSpec ivSpec = getIVFromBase64(base64IV);
 
 	        // Extract actual cipher text
 	        int cipherTextLength = ivAndEncrypted.length - 16;

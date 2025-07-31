@@ -17,7 +17,7 @@ public class BusinessLogic {
 		
 		EncryptedResponse response = new EncryptedResponse();
 		
-		String dcrptPan = aes.encrypt(request.getPanNumber());
+		String dcrptPan = aes.encrypt(request.getPanNumber(),request.getIvCode());
 		response.setPanNumber(dcrptPan);
 		return response;
 	}
@@ -25,7 +25,7 @@ public class BusinessLogic {
 	public EncryptedResponse decryptRequest(EncryptedRequest request) throws Exception {
 
 		EncryptedResponse response = new EncryptedResponse();
-		String panNo = aes.decrypt(request.getPanNumber());
+		String panNo = aes.decrypt(request.getPanNumber(),request.getIvCode());
 		response.setPanNumber(panNo);
 		return response;
 	}
