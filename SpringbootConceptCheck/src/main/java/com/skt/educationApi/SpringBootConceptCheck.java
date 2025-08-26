@@ -14,7 +14,7 @@ public class SpringBootConceptCheck {
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(SpringBootConceptCheck.class);
 		app.addInitializers(new MyContextInitializer());
-		app.setWebApplicationType(WebApplicationType.NONE); // disables web server
+		//app.setWebApplicationType(WebApplicationType.NONE); // disables web server
 		app.run(args);
 	}
 
