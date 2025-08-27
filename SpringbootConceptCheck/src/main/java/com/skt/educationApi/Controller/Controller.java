@@ -7,11 +7,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skt.educationApi.AvailbilityChangeEvent.MaintenanceService;
+import com.skt.educationApi.beanscope.singleton.OrderService;
 
 @RestController
 @RequestMapping("/springconcept")
 public class Controller {
 
+	@Autowired
+	private OrderService orderService;
+
+	    @GetMapping("/order")
+	    public String createOrder() {
+	        orderService.placeOrder("ORD123");
+	        return "Order placed!";
+	    }
+	
+	
+	//--------------------------------------------------
 	@Autowired
 	private MaintenanceService mainService;
 	
