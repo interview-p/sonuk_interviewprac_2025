@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import com.skt.educationApi.SpringApplicationEventCheckClassess.contextinitCheck;
 import com.skt.educationApi.beanscope.prototype.AuthService;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.skt.educationApi")
 @EnableScheduling
 public class SpringBootConceptCheck {
 
