@@ -1,0 +1,67 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
+    orders: [Order!]
+}
+
+type Order {
+    id: ID!
+    productName: String!
+    amount: Float!
+    user: User
+    payment: Payment
+}
+
+type Payment {
+    id: ID!
+    amount: Float!
+    status: String!
+    order: Order
+}
+
+type OrderSummary {
+    orderId: ID!
+    productName: String!
+    amount: Float!
+    paymentStatus: String!
+    transactionId: String
+}
+
+# ========================
+# Queries
+# ========================
+
+type Query {
+
+    # User Queries
+    getAllUsers: [User!]
+    getUserById(id: ID!): User
+
+    # Order Queries
+    getAllOrders: [Order!]
+    getOrderById(id: ID!): Order
+
+    # Payment Queries
+    getAllPayments: [Payment!]
+    getPaymentById(id: ID!): Payment
+    getPaymentByOrderId(orderId: ID!): Payment
+    
+    #orderSummary
+    getOrderSummary(orderId: ID!): OrderSummary
+}
+
+type Mutation {
+    # User Mutations
+    createUser(name: String!, email: String!): User
+    deleteUser(id: ID!): Boolean
+
+    # Order Mutations
+    createOrder(userId: ID!, productName: String!, amount: Float!): Order
+    deleteOrder(id: ID!): Boolean
+
+    # Payment Mutations
+    createPayment(orderId: ID!, amount: Float!, status: String!): Payment
+    deletePayment(id: ID!): Boolean
+}
