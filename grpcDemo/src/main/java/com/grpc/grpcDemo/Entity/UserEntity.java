@@ -18,6 +18,11 @@ public class UserEntity {
 	    private String email;
 	    private String addresh;
 	       
+	    
+	    
+		public UserEntity() {
+			super();
+		}
 		public UserEntity(String name, String email, String addresh) {
 			super();
 			this.name = name;

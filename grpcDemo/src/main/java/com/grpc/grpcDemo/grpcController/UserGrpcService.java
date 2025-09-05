@@ -1,11 +1,12 @@
 package com.grpc.grpcDemo.grpcController;
 
 
+import org.springframework.grpc.server.service.GrpcService;
+
 import com.grpc.grpcDemo.Entity.UserEntity;
 import com.grpc.grpcDemo.Service.UserService;
 
 import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
 import user.User.CreateUserRequest;
 import user.User.GetUserRequest;
 import user.User.UserResponse;
