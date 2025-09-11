@@ -26,17 +26,17 @@ public class Notes {
 	       if it detected window in your system it download window protoc binary(pre-execute source code) 
 	       compiler to compile .proto file same if linux found it donwload linux protoc
 	       
-	        
+	 6> It’s a way for a program to call a function on another computer (remote server) as if it were calling a local function.
+	       
+	 7> gRPC is not a full-fledged application framework like Spring Boot or Django.
+        It is a high-performance RPC system (library + protocol + tooling) developed by Google
+        
+     8> It defines how clients and servers talk using:
+            Protocol Buffers (serialization format).
+            HTTP/2 (transport layer).
+            Generated client/server stubs (code you use in apps).
 	   
-	   
-	   
-	   
-	   
-	   
-	   
-	4> will continue later some topic - grpc is framework like springboot it is king of bean inside 
-	   of springboot,is protobuf is same as grpc, after adding net dev dependency server not start
-	   
+	 
 	 
 	
 	*/
