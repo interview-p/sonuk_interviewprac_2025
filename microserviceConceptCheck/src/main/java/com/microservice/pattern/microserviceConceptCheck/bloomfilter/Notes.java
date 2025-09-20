@@ -58,7 +58,7 @@ Security / privacy
 Bloom filter never stores raw password or hash — only bit positions.
 Safe to use with password hashes for leak detection.
 
-
+// here there are manu real-life example where we can using bloomfilter
 
 
 	
