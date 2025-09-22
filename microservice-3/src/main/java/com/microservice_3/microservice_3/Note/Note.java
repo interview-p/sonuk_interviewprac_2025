@@ -1,8 +1,5 @@
 package com.microservice_3.microservice_3.Note;
 
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 public class Note {
 

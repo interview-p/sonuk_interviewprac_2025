@@ -20,6 +20,11 @@ public class Controller {
 	      return circuitBreakerService.callRemoteService();
 	 }
 	 
+	 @GetMapping("/check-retry")
+	 public String check_test() {
+	      return circuitBreakerService.callRetryRemoteService();
+	 }
+	 
 	 @GetMapping("/proxy-check")
 	 public String proxyCheck() {
 	     System.out.println("Controller sees bean class = " + circuitBreakerService.getClass().getName());

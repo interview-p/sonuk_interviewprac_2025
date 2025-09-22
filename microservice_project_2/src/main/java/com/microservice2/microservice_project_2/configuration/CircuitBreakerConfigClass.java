@@ -15,7 +15,7 @@ import io.github.resilience4j.circuitbreaker.event.CircuitBreakerEvent;
 @Configuration
 public class CircuitBreakerConfigClass {
 
-	/*
+	
 	 private final List<CircuitBreakerEvent> events = new ArrayList<>();
 	
 	  @Bean
@@ -48,5 +48,5 @@ public class CircuitBreakerConfigClass {
 	        return circuitBreaker;
 	    }
 	    
-	   */ 
+	   
 }

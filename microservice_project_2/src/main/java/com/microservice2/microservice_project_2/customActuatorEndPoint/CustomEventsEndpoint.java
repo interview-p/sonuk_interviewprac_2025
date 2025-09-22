@@ -14,7 +14,7 @@ import io.github.resilience4j.circuitbreaker.event.CircuitBreakerEvent;
 @Endpoint(id = "events")
 public class CustomEventsEndpoint {
 
-	/*
+	
 	 private final List<CircuitBreakerEvent> events;
 
 	    public CustomEventsEndpoint(List<CircuitBreakerEvent> events) {
@@ -28,5 +28,5 @@ public class CustomEventsEndpoint {
 	                 .toList();
 	    }
 	    
-	    */
+	    
 }

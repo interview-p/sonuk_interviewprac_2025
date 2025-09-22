@@ -5,7 +5,7 @@ import io.github.resilience4j.circuitbreaker.event.CircuitBreakerOnErrorEvent;
 
 public class CircuitBreakerEventDTO {
 
-	/*
+	
 	private String type;
     private String circuitBreakerName;
     private String creationTime;
@@ -31,5 +31,5 @@ public class CircuitBreakerEventDTO {
     public String getCreationTime() { return creationTime; }
     public String getErrorMessage() { return errorMessage; }
     
-    */
+    
 }

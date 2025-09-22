@@ -14,7 +14,7 @@ import io.github.resilience4j.circuitbreaker.event.CircuitBreakerEvent;
 @Service
 public class ProgrammaticCircuitBreakerService {
 
-	/*
+	
 	 private final RestTemplate restTemplate;
 	 private final CircuitBreaker circuitBreaker;
 	 
@@ -41,5 +41,5 @@ public class ProgrammaticCircuitBreakerService {
 	    public String fallback(Throwable t) {
 	        return "Fallback executed: " + t.getMessage();
 	    }
-    */
+    
 }
