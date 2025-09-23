@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.microservice_3.microservice_3")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Microservice3Application {
 
