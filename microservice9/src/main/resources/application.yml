@@ -1,0 +1,15 @@
+
+server:
+  port: 8089
+
+eureka:
+  instance:
+    #appname: micro9-client
+    metadata-map:
+      version: 1.0.0
+      env: dev
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

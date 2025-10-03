@@ -1,0 +1,36 @@
+
+services:
+  eureka:
+    build: ../microservice-serviceDiscovery_test
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - micro-net
+
+  microservice9:
+    build: ../microservice9
+    container_name: microservice9-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    depends_on:
+      - eureka
+    ports:
+      - "8089:8089"
+    networks:
+      - micro-net
+
+  microservice6:
+    build: ../microservice6
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    depends_on:
+      - eureka
+    networks:
+      - micro-net
+    ports:
+      - "8086"
+
+networks:
+  micro-net:
+    driver: bridge

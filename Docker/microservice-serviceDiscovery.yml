@@ -1,0 +1,88 @@
+version: '3.9'
+services:
+
+  # Eureka Node 1
+  eureka1:
+    build: ../microservice-serviceDiscovery
+    image: eureka-server:1.0
+    container_name: eureka1
+    environment:
+      - PORT=9091
+      - EUREKA_INSTANCE_HOSTNAME=eureka1
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+    ports:
+      - "9091:9091"
+
+  # Eureka Node 2
+  eureka2:
+    build: ../microservice-serviceDiscovery
+    image: eureka-server:1.0
+    container_name: eureka2
+    environment:
+      - PORT=9092
+      - EUREKA_INSTANCE_HOSTNAME=eureka2
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka3:9093/eureka/
+    ports:
+      - "9092:9092"
+
+  # Eureka Node 3
+  eureka3:
+    build: ../microservice-serviceDiscovery
+    image: eureka-server:1.0
+    container_name: eureka3
+    environment:
+      - PORT=9093
+      - EUREKA_INSTANCE_HOSTNAME=eureka3
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/
+    ports:
+      - "9093:9093"
+
+  # microservice7
+  microservice-7:
+    build: ../microservice7
+    image: microservice7:1.0
+    container_name: microservice7-container
+    environment:
+      - PORT=8087
+      - EUREKA_INSTANCE_HOSTNAME=microservice-7
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+    ports:
+      - "8087:8087"
+    depends_on:
+      - eureka1
+      - eureka2
+      - eureka3
+
+  # microservice8
+  microservice-8:
+    build: ../microservice8
+    image: microservice8:1.0
+    container_name: microservice8-container
+    environment:
+      - PORT=8088
+      - EUREKA_INSTANCE_HOSTNAME=microservice-8
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+    ports:
+      - "8088:8088"
+    depends_on:
+      - eureka1
+      - eureka2
+      - eureka3
+
+  # loadbalancer
+  loadbalancer-service:
+    build: ../microservice-loadbalancer
+    image: loadbalancer-service:1.0
+    container_name: loadbalancer-service
+    environment:
+      - PORT=8089
+      - EUREKA_INSTANCE_HOSTNAME=loadbalancer-service
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+    ports:
+      - "8089:8089"
+    depends_on:
+      - eureka1
+      - eureka2
+      - eureka3
+      - microservice-7
+      - microservice-8
