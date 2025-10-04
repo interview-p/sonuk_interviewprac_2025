@@ -12,6 +12,8 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
     ports:
       - "9091:9091"
+    networks:
+      - micro-net-2
 
   # Eureka Node 2
   eureka2:
@@ -24,6 +26,8 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka3:9093/eureka/
     ports:
       - "9092:9092"
+    networks:
+      - micro-net-2
 
   # Eureka Node 3
   eureka3:
@@ -36,31 +40,35 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/
     ports:
       - "9093:9093"
+    networks:
+      - micro-net-2
 
   # microservice7
-  microservice-7:
+  microservice7:
     build: ../microservice7
     image: microservice7:1.0
     container_name: microservice7-container
     environment:
       - PORT=8087
-      - EUREKA_INSTANCE_HOSTNAME=microservice-7
+      - EUREKA_INSTANCE_HOSTNAME=microservice7
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
     ports:
-      - "8087:8087"
+      - "8087"
     depends_on:
       - eureka1
       - eureka2
       - eureka3
+    networks:
+      - micro-net-2
 
   # microservice8
-  microservice-8:
+  microservice8:
     build: ../microservice8
     image: microservice8:1.0
     container_name: microservice8-container
     environment:
       - PORT=8088
-      - EUREKA_INSTANCE_HOSTNAME=microservice-8
+      - EUREKA_INSTANCE_HOSTNAME=microservice8
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
     ports:
       - "8088:8088"
@@ -68,15 +76,17 @@ services:
       - eureka1
       - eureka2
       - eureka3
+    networks:
+      - micro-net-2
 
   # loadbalancer
-  loadbalancer-service:
+  microservice-loadbalancer:
     build: ../microservice-loadbalancer
     image: loadbalancer-service:1.0
     container_name: loadbalancer-service
     environment:
       - PORT=8089
-      - EUREKA_INSTANCE_HOSTNAME=loadbalancer-service
+      - EUREKA_INSTANCE_HOSTNAME=microservice-loadbalancer
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
     ports:
       - "8089:8089"
@@ -84,5 +94,11 @@ services:
       - eureka1
       - eureka2
       - eureka3
-      - microservice-7
-      - microservice-8
+      - microservice7
+      - microservice8
+    networks:
+      - micro-net-2
+
+networks:
+  micro-net-2:
+    driver: bridge

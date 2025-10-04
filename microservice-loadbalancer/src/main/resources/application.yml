@@ -1,15 +1,14 @@
-spring:
-  application:
-    name: loadbalancer-service
 server:
   port: 8089
 
 
 eureka:
   instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME:loadbalancer-service}
+   metadata-map:
+      version: 1.0.0
+      env: dev
   client:
     register-with-eureka: true
     fetch-registry: true
-  service-url:
-    defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka2:9092/eureka/,http://eureka3:9093/eureka/}
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka2:9092/eureka/,http://eureka3:9093/eureka/}

@@ -9,6 +9,8 @@ eureka:
       version: 1.0.0
       env: dev
     instance-id: ${spring.application.name}:${random.value}
+    lease-renewal-interval-in-seconds: 60 # send heartbeat every 60s
+    lease-expiration-duration-in-seconds: 180 # expire after 180s
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/

@@ -20,9 +20,9 @@ public class microservic7_Forwarder {
     }
 
     @RequestMapping("/**")
-    public ResponseEntity<String> forward(HttpServletRequest request, HttpEntity<String> entity) {
+    public String forward(HttpServletRequest request, HttpEntity<String> entity) {
         String path = request.getRequestURI().replace("/lb/micro7", "");
-        String url = "http://microservice7-container" + path;
-        return rest.exchange(url, HttpMethod.valueOf(request.getMethod()), entity, String.class);
+        String url = "http://MICROSERVICE7" +"/micro7"+ path;
+        return rest.getForObject(url, String.class);
     }
 }

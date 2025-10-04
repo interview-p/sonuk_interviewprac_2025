@@ -1,15 +1,15 @@
-spring:
-  application:
-    name: microservice7
 server:
-  port: 8087
+  port: 0
 
 
 eureka:
   instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME:microservice-7}
+    metadata-map:
+      version: 1.0.0
+      env: dev
+    instance-id: ${spring.application.name}:${random.value}
   client:
     register-with-eureka: true
     fetch-registry: true
-  service-url:
-    defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/}
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/}

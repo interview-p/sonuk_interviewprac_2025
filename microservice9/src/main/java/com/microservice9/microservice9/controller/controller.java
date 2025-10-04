@@ -24,7 +24,7 @@ public class controller {
 	    @GetMapping("/sdcheck")
 	    public String sdcheck() {
 	        // microservice6-service is the name in Eureka
-	        String url = "http://MICROSERVICE6/micro6/microservice6/check";
+	        String url = "http://MICROSERVICE6/micro6/microservice6/sdcheck";
 	        return restTemplate.getForObject(url, String.class);
 	    }
 }
