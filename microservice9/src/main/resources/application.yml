@@ -1,15 +1,33 @@
-
 server:
-  port: 8089
+  ssl:
+    enabled: true
+    key-store: /certs/microservice9-keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: microservice9
+    # Uncomment below if using a truststore (e.g., with self-signed certs or HTTPS client calls)
+    trust-store: /certs/microservice9-truststore.p12
+    trust-store-password: changeit
+    trust-store-type: PKCS12
+
 
 eureka:
   instance:
-    #appname: micro9-client
+    hostname: microservice9
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-port: 8089
+    status-page-url: https://${eureka.instance.hostname}:${server.port}/actuator/info
+    health-check-url: https://${eureka.instance.hostname}:${server.port}/actuator/health
     metadata-map:
       version: 1.0.0
       env: dev
+    instance-id: ${spring.application.name}:${random.value}
+    lease-renewal-interval-in-seconds: 60
+    lease-expiration-duration-in-seconds: 180
+
   client:
+    register-with-eureka: true   # Recommended for Eureka servers
+    fetch-registry: true         # Recommended for Eureka servers
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
+      defaultZone: https://eureka:8761/eureka/

@@ -1,8 +1,11 @@
-
 services:
   eureka:
     build: ../microservice-serviceDiscovery_test
     container_name: eureka-server
+    environment:
+      - JAVA_TOOL_OPTIONS=-Djavax.net.debug=ssl,handshake -Djavax.net.ssl.trustStore=/certs/eureka-truststore.p12 -Djavax.net.ssl.trustStorePassword=changeit
+    volumes:
+      - ../certificate/eureka:/certs
     ports:
       - "8761:8761"
     networks:
@@ -12,7 +15,10 @@ services:
     build: ../microservice9
     container_name: microservice9-service
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+      - EUREKA_INSTANCE_HOSTNAME=microservice9
+      - JAVA_TOOL_OPTIONS=-Djavax.net.debug=ssl,handshake -Djavax.net.ssl.trustStore=/certs/microservice9-truststore.p12 -Djavax.net.ssl.trustStorePassword=changeit
+    volumes:
+      - ../certificate/microservice9:/certs
     depends_on:
       - eureka
     ports:
@@ -22,14 +28,18 @@ services:
 
   microservice6:
     build: ../microservice6
+    container_name: microservice6-service
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+      - EUREKA_INSTANCE_HOSTNAME=microservice6
+      - JAVA_TOOL_OPTIONS=-Djavax.net.debug=ssl,handshake -Djavax.net.ssl.trustStore=/certs/microservice6-truststore.p12 -Djavax.net.ssl.trustStorePassword=changeit
+    volumes:
+      - ../certificate/microservice6:/certs
     depends_on:
       - eureka
+    ports:
+      - "8086:8086"
     networks:
       - micro-net
-    ports:
-      - "8086"
 
 networks:
   micro-net:

@@ -1,4 +1,3 @@
-version: '3.9'
 services:
 
   # Eureka Node 1
@@ -7,9 +6,11 @@ services:
     image: eureka-server:1.0
     container_name: eureka1
     environment:
-      - PORT=9091
+      - SERVER_PORT=9091
       - EUREKA_INSTANCE_HOSTNAME=eureka1
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaadmin:eurekapass@eureka2:9092/eureka/,http://eurekaadmin:eurekapass@eureka3:9093/eureka/
+      - SPRING_SECURITY_USER_NAME=eurekaadmin
+      - SPRING_SECURITY_USER_PASSWORD=eurekapass
     ports:
       - "9091:9091"
     networks:
@@ -21,9 +22,11 @@ services:
     image: eureka-server:1.0
     container_name: eureka2
     environment:
-      - PORT=9092
+      - SERVER_PORT=9092
       - EUREKA_INSTANCE_HOSTNAME=eureka2
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka3:9093/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaadmin:eurekapass@eureka1:9091/eureka/,http://eurekaadmin:eurekapass@eureka3:9093/eureka/
+      - SPRING_SECURITY_USER_NAME=eurekaadmin
+      - SPRING_SECURITY_USER_PASSWORD=eurekapass
     ports:
       - "9092:9092"
     networks:
@@ -35,9 +38,11 @@ services:
     image: eureka-server:1.0
     container_name: eureka3
     environment:
-      - PORT=9093
+      - SERVER_PORT=9093
       - EUREKA_INSTANCE_HOSTNAME=eureka3
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaadmin:eurekapass@eureka1:9091/eureka/,http://eurekaadmin:eurekapass@eureka2:9092/eureka/
+      - SPRING_SECURITY_USER_NAME=eurekaadmin
+      - SPRING_SECURITY_USER_PASSWORD=eurekapass
     ports:
       - "9093:9093"
     networks:
@@ -49,11 +54,11 @@ services:
     image: microservice7:1.0
     container_name: microservice7-container
     environment:
-      - PORT=8087
+      - SERVER_PORT=8087
       - EUREKA_INSTANCE_HOSTNAME=microservice7
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaadmin:eurekapass@eureka1:9091/eureka/,http://eurekaadmin:eurekapass@eureka2:9092/eureka/,http://eurekaadmin:eurekapass@eureka3:9093/eureka/
     ports:
-      - "8087"
+      - "8087:8087"
     depends_on:
       - eureka1
       - eureka2
@@ -67,9 +72,9 @@ services:
     image: microservice8:1.0
     container_name: microservice8-container
     environment:
-      - PORT=8088
+      - SERVER_PORT=8088
       - EUREKA_INSTANCE_HOSTNAME=microservice8
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaadmin:eurekapass@eureka1:9091/eureka/,http://eurekaadmin:eurekapass@eureka2:9092/eureka/,http://eurekaadmin:eurekapass@eureka3:9093/eureka/
     ports:
       - "8088:8088"
     depends_on:
@@ -85,9 +90,9 @@ services:
     image: loadbalancer-service:1.0
     container_name: loadbalancer-service
     environment:
-      - PORT=8089
+      - SERVER_PORT=8089
       - EUREKA_INSTANCE_HOSTNAME=microservice-loadbalancer
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/,http://eureka3:9093/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaadmin:eurekapass@eureka1:9091/eureka/,http://eurekaadmin:eurekapass@eureka2:9092/eureka/,http://eurekaadmin:eurekapass@eureka3:9093/eureka/
     ports:
       - "8089:8089"
     depends_on:
