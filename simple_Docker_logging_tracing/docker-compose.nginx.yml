@@ -1,0 +1,13 @@
+# docker-compose.nginx.yml
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx-lb
+    ports:
+      - "8080:80"
+    networks:
+      - sample-microservices-logging-net
+
+networks:
+  sample-microservices-logging-net:
+    external: true

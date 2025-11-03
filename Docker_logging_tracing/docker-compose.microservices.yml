@@ -1,0 +1,49 @@
+services:
+  microservice-10:
+    build: ../microservice10
+    container_name: microservice10-con
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=prod
+    volumes:
+      - ../logging_log/microservice10:/app/logs
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+  microservice-11:
+    build: ../microservice11
+    container_name: microservice11-con
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/
+      - SERVER_PORT=8081
+      - SPRING_PROFILES_ACTIVE=prod
+    volumes:
+      - ../logging_log/microservice11:/app/logs
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+  microservice-12:
+    build: ../microservice12
+    container_name: microservice12-con
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka1:9091/eureka/,http://eureka2:9092/eureka/
+      - SERVER_PORT=8082
+      - SPRING_PROFILES_ACTIVE=prod
+    volumes:
+      - ../logging_log/microservice12:/app/logs
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+networks:
+  logging-net:
+    external: true

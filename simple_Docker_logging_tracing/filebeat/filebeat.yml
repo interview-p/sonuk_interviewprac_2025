@@ -1,0 +1,23 @@
+# ----------------------------- Filebeat Inputs -----------------------------
+filebeat.inputs:
+  - type: log               # Type of input, here it's 'log' for reading log files
+    enabled: true           # Enable this input
+    pretty: true            # Output in human-readable (pretty) format
+    paths:
+      - /var/log/microservice/*.log  # Path(s) to your microservice log files
+    ignore_older: 0         # Ensures even old logs are picked up
+    close_inactive: 5m      # Closes file handler after inactivity
+    scan_frequency: 10s     # Checks for new lines every 10 seconds
+
+# ----------------------------- Output -----------------------------
+output.logstash:
+  hosts: ["logstash:5044"]  # Send logs to Logstash on host 'logstash' and port 5044
+
+# ----------------------------- Logging -----------------------------
+logging.level: debug         # Log level for Filebeat internal logs: debug, info, warning, error
+logging.to_files: true       # Enable writing logs to files instead of only stdout
+logging.files:
+  path: /var/log/filebeat    # Directory inside container where Filebeat writes its logs
+  name: filebeat             # Base name of the log file
+  keepfiles: 7               # Number of rotated log files to keep
+  permissions: 0644          # File permissions for the log files

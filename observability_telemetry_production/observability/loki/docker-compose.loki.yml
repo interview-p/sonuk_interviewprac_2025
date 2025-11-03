@@ -1,0 +1,17 @@
+services:
+  loki:
+    build: ./loki
+    container_name: loki
+    ports:
+      - "3100:3100"
+    networks:
+      - obs-net
+    volumes:
+      - loki-data:/loki
+
+volumes:
+  loki-data:
+
+networks:
+  obs-net:
+    external: true

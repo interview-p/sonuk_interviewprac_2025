@@ -1,0 +1,15 @@
+# docker-compose.kibana.yml
+services:
+  kibana:
+    build: ./kibana
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - sample-microservices-logging-net
+
+networks:
+  sample-microservices-logging-net:
+    external: true

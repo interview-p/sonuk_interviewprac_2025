@@ -1,0 +1,11 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/apps/*/*.log
+    fields_under_root: true
+
+output.logstash:
+  hosts: ["nginx-lb:5044"]
+  loadbalance: true
+  bulk_max_size: 2048

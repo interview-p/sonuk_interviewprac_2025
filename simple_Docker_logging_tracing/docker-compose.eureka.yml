@@ -1,0 +1,13 @@
+# docker-compose.eureka.yml
+services:
+  eureka:
+    build: ../loggingServiceDiscovery
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - sample-microservices-logging-net
+
+networks:
+  sample-microservices-logging-net:
+    external: true

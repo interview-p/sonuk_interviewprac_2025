@@ -1,0 +1,14 @@
+services:
+  filebeat:
+    build: ./filebeat
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./logs/microservice:/var/log/microservice:ro
+      - ./logs/filebeat:/var/log/filebeat
+    networks:
+      - sample-microservices-logging-net
+
+networks:
+  sample-microservices-logging-net:
+    external: true

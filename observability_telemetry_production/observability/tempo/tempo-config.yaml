@@ -1,0 +1,22 @@
+server:
+  http_listen_port: 3200
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+distributor:
+  receivers: [otlp]
+
+processors: {}
+
+exporters: {}
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: []

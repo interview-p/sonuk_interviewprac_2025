@@ -1,0 +1,7 @@
+server:
+  port: 9012
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka1:8761/eureka/,http://eureka2:8762/eureka/}

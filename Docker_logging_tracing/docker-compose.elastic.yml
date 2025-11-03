@@ -1,0 +1,77 @@
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=logging-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - logging-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: es02
+    environment:
+      - node.name=es02
+      - cluster.name=logging-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+      - esdata2:/usr/share/elasticsearch/data
+    networks:
+      - logging-net
+
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: es03
+    environment:
+      - node.name=es03
+      - cluster.name=logging-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+      - esdata3:/usr/share/elasticsearch/data
+    networks:
+      - logging-net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.2
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - logging-net
+    depends_on:
+      - es01
+
+volumes:
+  esdata1:
+  esdata2:
+  esdata3:
+
+networks:
+  logging-net:
+    external: true

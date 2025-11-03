@@ -1,0 +1,15 @@
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    networks:
+      - infra-net
+      - services-net
+
+networks:
+  infra-net:
+    external: true
+  services-net:
+    external: true

@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  splunk:
+    image: splunk/splunk:9.2
+    container_name: splunk
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=Admin@123
+      - SPLUNK_ENABLE_LISTEN=9997
+    ports:
+      - "8000:8000"
+      - "8088:8088"
+    networks:
+      - logging-net
+
+networks:
+  logging-net:
+    external: true

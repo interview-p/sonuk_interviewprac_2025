@@ -1,0 +1,18 @@
+services:
+  tempo:
+    build: ./tempo
+    container_name: tempo
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    networks:
+      - obs-net
+    volumes:
+      - tempo-data:/var/tempo
+
+volumes:
+  tempo-data:
+
+networks:
+  obs-net:
+    external: true

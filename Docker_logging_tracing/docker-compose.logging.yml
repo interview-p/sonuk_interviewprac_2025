@@ -1,0 +1,61 @@
+services:
+  nginx-lb:
+    image: nginx:1.25
+    container_name: nginx-lb
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+  logstash1:
+    image: docker.elastic.co/logstash/logstash:8.10.2
+    container_name: logstash1
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline/patterns:/usr/share/logstash/pipeline/patterns:ro
+    environment:
+      - LS_JAVA_OPTS=-Xms512m -Xmx512m
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+  logstash2:
+    image: docker.elastic.co/logstash/logstash:8.10.2
+    container_name: logstash2
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+    environment:
+      - LS_JAVA_OPTS=-Xms512m -Xmx512m
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.10.2
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./logs:/var/log/apps:ro
+    depends_on:
+      - nginx-lb
+    networks:
+      - logging-net
+    deploy:
+      restart_policy:
+        condition: any
+
+networks:
+  logging-net:
+    external: true

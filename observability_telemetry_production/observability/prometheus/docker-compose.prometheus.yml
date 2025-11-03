@@ -1,0 +1,20 @@
+services:
+  prometheus:
+    build: ./prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - obs-net
+      - services-net
+    volumes:
+      - prometheus-data:/prometheus
+
+volumes:
+  prometheus-data:
+
+networks:
+  obs-net:
+    external: true
+  services-net:
+    external: true

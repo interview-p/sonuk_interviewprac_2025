@@ -1,0 +1,16 @@
+services:
+  microservice:
+    build: ../microservice14
+    container_name: microservice14-con
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    volumes:
+      - ./logs/microservice:/var/log/microservice  # host dir where logs are stored
+    networks:
+      - sample-microservices-logging-net
+
+networks:
+  sample-microservices-logging-net:
+    external: true

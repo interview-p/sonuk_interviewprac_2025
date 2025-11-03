@@ -1,0 +1,16 @@
+services:
+  promtail:
+    build: ./promtail
+    container_name: promtail
+    networks:
+      - obs-net
+      - services-net
+    volumes:
+      # mount service logs folder (we'll write logs to /var/log/services/{service}/)
+      - ../../services:/var/log/services:ro
+
+networks:
+  obs-net:
+    external: true
+  services-net:
+    external: true

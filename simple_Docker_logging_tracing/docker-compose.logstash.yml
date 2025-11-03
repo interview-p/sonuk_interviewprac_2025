@@ -1,0 +1,12 @@
+services:
+  logstash:
+    build: ./logstash
+    container_name: logstash
+    ports:
+      - "5044:5044"
+    networks:
+      - sample-microservices-logging-net
+
+networks:
+  sample-microservices-logging-net:
+    external: true

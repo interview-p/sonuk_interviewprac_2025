@@ -1,0 +1,12 @@
+services:
+  eureka:
+    build: ./eureka
+    container_name: eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - infra-net
+
+networks:
+  infra-net:
+    external: true
