@@ -1,0 +1,23 @@
+# Build outputs
+/target/
+/out/
+
+# Logs
+*.log
+/logs/
+
+# IDE and OS files
+.idea/
+.vscode/
+*.iml
+Thumbs.db
+
+# Temporary or secret files
+*.tmp
+*.bak
+*.prefs
+*.ndjson
+*.class
+*.lst
+*.jar
+*.
