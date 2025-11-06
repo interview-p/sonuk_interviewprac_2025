@@ -1,12 +1,14 @@
-server:
-  port: 8080
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka:8761/eureka/
-  instance:
-    prefer-ip-address: false
+spring:
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+      discovery:
+        register: true
+        prefer-ip-address: true
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        health-check-port: 8080
 
 management:
   endpoints:
@@ -14,9 +16,6 @@ management:
       exposure:
         include: "*"
   endpoint:
-    prometheus:
-      enabled: true
+    health:
+      show-details: always
 
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{trace_id}:%X{span_id}] %msg%n"

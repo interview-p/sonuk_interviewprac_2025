@@ -39,10 +39,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+	<!--	
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+         </dependency>
+    -->
 <!--
 		<dependency>
 			<groupId>io.micrometer</groupId>
@@ -53,13 +55,13 @@
 		-->
 		
 		<!-- OpenTelemetry (auto-instrumentation + manual spans) -->
-        <!--<dependency>
+        <dependency>
           <groupId>io.opentelemetry.instrumentation</groupId>
           <artifactId>opentelemetry-spring-boot-starter</artifactId>
           <version>1.22.1-alpha</version>
          </dependency>
-         -->
          
+      <!--   
           <dependency>
            <groupId>io.micrometer</groupId>
            <artifactId>micrometer-tracing-bridge-otel</artifactId>
@@ -70,6 +72,7 @@
            <artifactId>opentelemetry-exporter-otlp</artifactId>
         </dependency>
         
+        -->
         
         
 		<!-- Logging JSON (logback encoder for Loki) -->

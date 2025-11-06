@@ -1,47 +1,38 @@
 services:
   service-a:
     build: ./service_15
-    container_name: service15_con
+    container_name: service_a
     ports:
-      - "8081:8080"   # host port 8081 -> container 8080
+      - "8081:8080"     # Application port for service-a
+      - "9464:9464"     # Prometheus metrics
     networks:
-      - services-net
-      - infra-net
       - obs-net
+    volumes:
+      - ../logs/service_15:/var/log/microservice
     environment:
-      # Spring app
-      - SPRING_APPLICATION_NAME=service-a
-      - SERVER_PORT=8080
-
-      # Eureka
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=service-a
-
-      # OpenTelemetry (auto-instrumentation agent mounted into image)
-      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.exporter.otlp.endpoint=http://tempo:4317 -Dotel.resource.attributes=service.name=service-a
+      OTEL_SERVICE_NAME: service-a
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_METRICS_EXPORTER: prometheus
+      OTEL_METRICS_PROMETHEUS_PORT: 9464
 
   service-b:
     build: ./service_16
-    container_name: service16_con
+    container_name: service_b
     ports:
-      - "8082:8080"   # host port 8082 -> container 8080
+      - "8082:8080"     # Application port for service-b
+      - "9465:9464"     # Prometheus metrics (mapped to host 9465)
     networks:
-      - services-net
-      - infra-net
       - obs-net
+    volumes:
+      - ../logs/service_16:/var/log/microservice
     environment:
-      - SPRING_APPLICATION_NAME=service-b
-      - SERVER_PORT=8080
-
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
-      - EUREKA_INSTANCE_HOSTNAME=service-b
-
-      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -Dotel.exporter.otlp.endpoint=http://tempo:4317 -Dotel.resource.attributes=service.name=service-b
+      OTEL_SERVICE_NAME: service-b
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_METRICS_EXPORTER: prometheus
+      OTEL_METRICS_PROMETHEUS_PORT: 9464
 
 networks:
-  infra-net:
-    external: true
-  services-net:
-    external: true
   obs-net:
     external: true

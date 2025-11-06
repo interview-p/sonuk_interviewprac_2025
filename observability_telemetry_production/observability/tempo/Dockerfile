@@ -1,3 +1,3 @@
-FROM grafana/tempo:1.7.0
+FROM grafana/tempo:2.8.2
 COPY tempo-config.yaml /etc/tempo/tempo.yaml
-ENTRYPOINT ["/usr/bin/tempo", "-config.file=/etc/tempo/tempo.yaml"]
+ENTRYPOINT ["/tempo", "-config.file=/etc/tempo/tempo.yaml"]

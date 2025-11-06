@@ -2,13 +2,15 @@ services:
   tempo:
     build: ./tempo
     container_name: tempo
-    ports:
-      - "4317:4317"   # OTLP gRPC
-      - "4318:4318"   # OTLP HTTP
-    networks:
-      - obs-net
+    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
     volumes:
       - tempo-data:/var/tempo
+    ports:
+      - "4318:4318"   # ✅ OTLP gRPC
+      - "4319:4319"   # ✅ OTLP HTTP
+      - "3200:3200"   # ✅ Tempo Query API
+    networks:
+      - obs-net
 
 volumes:
   tempo-data:

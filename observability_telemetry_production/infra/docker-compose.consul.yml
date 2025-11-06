@@ -1,0 +1,14 @@
+services:
+  consul:
+    image: hashicorp/consul:latest
+    container_name: consul_con
+    command: "agent -dev -client=0.0.0.0"
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    networks:
+      - infra-net
+
+networks:
+  infra-net:
+    external: true

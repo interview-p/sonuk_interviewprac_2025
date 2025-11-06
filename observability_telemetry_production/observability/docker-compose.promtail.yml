@@ -4,13 +4,11 @@ services:
     container_name: promtail
     networks:
       - obs-net
-      - services-net
     volumes:
-      # mount service logs folder (we'll write logs to /var/log/services/{service}/)
-      - ../../services:/var/log/services:ro
+      - ../logs:/var/log/services:ro                   # mount local folder where log keep to location where log keep inside docker
+    command: -config.file=/etc/promtail/promtail.yaml  # promtail-configuration file  
+    restart: always
 
 networks:
   obs-net:
-    external: true
-  services-net:
     external: true

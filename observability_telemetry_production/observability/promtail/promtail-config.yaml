@@ -1,13 +1,22 @@
 server:
   http_listen_port: 9080
+
 positions:
-  filename: /tmp/positions.yaml
+  filename: /tmp/positions.yaml # use for storing cuurent data read read index
+
 clients:
-  - url: http://loki:3100/loki/api/v1/push
+  - url: http://loki:3100/loki/api/v1/push #pointing loki
+
 scrape_configs:
-  - job_name: services-logs
+  - job_name: microservices-logs
     static_configs:
       - targets: [localhost]
         labels:
-          job: services
-          __path__: /var/log/services/*/logback*.log
+          job: service15                                 # define microservice job name and their path inside promtail docker
+          service: service_15
+          __path__: /var/log/services/service_15/*.log     # define path where log persist
+      - targets: [localhost]
+        labels:
+          job: service16
+          service: service_16
+          __path__: /var/log/services/service_16/*.log

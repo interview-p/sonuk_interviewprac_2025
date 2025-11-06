@@ -6,9 +6,8 @@ services:
       - "9090:9090"
     networks:
       - obs-net
-      - services-net
     volumes:
-      - prometheus-data:/prometheus
+      - prometheus-data:/prometheus  
 
 volumes:
   prometheus-data:

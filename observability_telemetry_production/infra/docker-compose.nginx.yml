@@ -1,7 +1,7 @@
 services:
   nginx:
     build: ./nginx
-    container_name: nginx
+    container_name: nginx_con
     ports:
       - "80:80"
     networks:

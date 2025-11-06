@@ -1,22 +1,26 @@
 server:
   http_listen_port: 3200
-
-receivers:
-  otlp:
-    protocols:
-      grpc:
-      http:
+  grpc_listen_port: 4317   # internal Tempo port, DO NOT send traces here
 
 distributor:
-  receivers: [otlp]
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4318   # ✅ OTLP gRPC input
+        http:
+          endpoint: 0.0.0.0:4319   # ✅ OTLP HTTP input
 
-processors: {}
+ingester:
+  trace_idle_period: 10s
+  max_block_duration: 1h
 
-exporters: {}
+compactor:
+  compaction:
+    block_retention: 48h
 
-service:
-  pipelines:
-    traces:
-      receivers: [otlp]
-      processors: []
-      exporters: []
+storage:
+  trace:
+    backend: local
+    local:
+      path: /var/tempo/traces

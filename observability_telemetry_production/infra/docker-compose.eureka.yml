@@ -1,7 +1,7 @@
 services:
   eureka:
     build: ./eureka
-    container_name: eureka
+    container_name: eureka_con
     ports:
       - "8761:8761"
     networks:

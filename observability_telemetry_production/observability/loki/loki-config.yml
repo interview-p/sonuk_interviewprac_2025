@@ -1,4 +1,5 @@
 auth_enabled: false
+
 server:
   http_listen_port: 3100
 
@@ -9,6 +10,9 @@ ingester:
       kvstore:
         store: inmemory
       replication_factor: 1
+  chunk_idle_period: 3m
+  chunk_block_size: 262144
+  chunk_retain_period: 1m
 
 schema_config:
   configs:
@@ -18,16 +22,22 @@ schema_config:
       schema: v11
       index:
         prefix: index_
+        period: 24h
 
 storage_config:
   boltdb_shipper:
     active_index_directory: /loki/index
+    cache_location: /loki/boltdb-cache
     shared_store: filesystem
+
   filesystem:
     directory: /loki/chunks
 
-limits_config: {}
-chunk_store_config: {}
-query_range:
+limits_config:
   split_queries_by_interval: 15m
-  max_retries: 5
+  max_cache_freshness_per_query: 10m
+
+chunk_store_config: {}
+compactor:
+  working_directory: /loki/compactor
+  shared_store: filesystem

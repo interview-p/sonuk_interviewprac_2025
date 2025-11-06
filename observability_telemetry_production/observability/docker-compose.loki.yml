@@ -2,12 +2,14 @@ services:
   loki:
     build: ./loki
     container_name: loki
+    user: "0:0"   # ✅ run as root so no permission issue
     ports:
-      - "3100:3100"
+      - "3100:3100"        # Loki HTTP API
     networks:
       - obs-net
     volumes:
-      - loki-data:/loki
+      - /loki-data:/loki    # Persistent storage for indexes & chunks
+    command: -config.file=/etc/loki/loki-config.yml
 
 volumes:
   loki-data:
