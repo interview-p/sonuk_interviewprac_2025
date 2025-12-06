@@ -1,0 +1,238 @@
+services:
+
+  # =======================================================================
+  # KAFKA UI (Provectus)
+  # =======================================================================
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui2
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "broker-1:9092,broker-2:9092,broker-3:9092,broker-4:9092,broker-5:9092"
+    depends_on:
+      - broker-1
+      - broker-2
+      - broker-3
+      - broker-4
+      - broker-5
+
+  # =======================================================================
+  # CONTROLLERS
+  # =======================================================================
+
+  controller-1:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: controller-1
+    container_name: controller-1
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: "controller"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT
+      KAFKA_LISTENERS: CONTROLLER://controller-1:29092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    volumes:
+      - controller1_data:/var/lib/kafka/data
+    ports:
+      - "29092:29092"
+
+  controller-2:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: controller-2
+    container_name: controller-2
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 2
+      KAFKA_PROCESS_ROLES: "controller"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT
+      KAFKA_LISTENERS: CONTROLLER://controller-2:29092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    volumes:
+      - controller2_data:/var/lib/kafka/data
+
+  controller-3:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: controller-3
+    container_name: controller-3
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 3
+      KAFKA_PROCESS_ROLES: "controller"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT
+      KAFKA_LISTENERS: CONTROLLER://controller-3:29092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    volumes:
+      - controller3_data:/var/lib/kafka/data
+
+  # =======================================================================
+  # BROKERS
+  # =======================================================================
+
+  broker-1:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: broker-1
+    container_name: broker-1
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 101
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
+      KAFKA_LISTENERS: PLAINTEXT://broker-1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-1:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    ports:
+      - "9093:9092"
+    volumes:
+      - broker1_data:/var/lib/kafka/data
+
+  broker-2:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: broker-2
+    container_name: broker-2
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 102
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
+      KAFKA_LISTENERS: PLAINTEXT://broker-2:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-2:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    ports:
+      - "9094:9092"
+    volumes:
+      - broker2_data:/var/lib/kafka/data
+
+  broker-3:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: broker-3
+    container_name: broker-3
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 103
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
+      KAFKA_LISTENERS: PLAINTEXT://broker-3:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-3:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    ports:
+      - "9095:9092"
+    volumes:
+      - broker3_data:/var/lib/kafka/data
+
+  broker-4:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: broker-4
+    container_name: broker-4
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 104
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
+      KAFKA_LISTENERS: PLAINTEXT://broker-4:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-4:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    ports:
+      - "9096:9092"
+    volumes:
+      - broker4_data:/var/lib/kafka/data
+
+  broker-5:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: broker-5
+    container_name: broker-5
+    environment:
+      CLUSTER_ID: "Oa29KcIOQqOas7UtQbKEDg"
+      KAFKA_NODE_ID: 105
+      KAFKA_PROCESS_ROLES: broker
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
+      KAFKA_LISTENERS: PLAINTEXT://broker-5:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-5:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@controller-1:29092,2@controller-2:29092,3@controller-3:29092"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    command:
+      - bash
+      - -c
+      - |
+          kafka-storage format --ignore-formatted --cluster-id "${CLUSTER_ID}" --config /etc/kafka/kraft/server.properties
+          exec /etc/confluent/docker/run
+    ports:
+      - "9097:9092"
+    volumes:
+      - broker5_data:/var/lib/kafka/data
+
+# =======================================================================
+# VOLUMES
+# =======================================================================
+volumes:
+  controller1_data:
+  controller2_data:
+  controller3_data:
+  broker1_data:
+  broker2_data:
+  broker3_data:
+  broker4_data:
+  broker5_data:
