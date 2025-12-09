@@ -1,0 +1,38 @@
+package com.kafka.custom.kafkaProducer1.config;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+
+@Configuration
+public class ProducerConfig {
+
+	 @Bean
+	    public ProducerFactory<String, String> producerFactory() {
+	        Map<String, Object> config = new HashMap<>();
+
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+	                "localhost:19092,localhost:19093,localhost:19094,localhost:19095,localhost:19096");
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+	                org.apache.kafka.common.serialization.StringSerializer.class);
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+	                org.apache.kafka.common.serialization.StringSerializer.class);
+
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "all");
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG, 50);
+	        config.put(org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG, 32768);
+
+	        return new DefaultKafkaProducerFactory<>(config);
+	    }
+
+	    @Bean
+	    public KafkaTemplate<String, String> kafkaTemplate() {
+	        return new KafkaTemplate<>(producerFactory());
+	    }
+}
