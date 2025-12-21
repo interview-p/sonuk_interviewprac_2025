@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.0</version>
+		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.kafka.custom</groupId>
-	<artifactId>kafkaProducer1</artifactId>
+	<groupId>com.kafka.consumer</groupId>
+	<artifactId>kafkaConsumerorder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kafkaProducer1</name>
-	<description>Demo project for Spring Boot</description>
+	<name>kafkaConsumerorder</name>
+	<description>orderconsumer</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -45,6 +45,10 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

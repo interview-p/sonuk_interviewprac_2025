@@ -9,4 +9,5 @@ spring:
       enable-idempotence: true
       batch-size: 32768
       linger-ms: 50
+      compression.type: snappy
       buffer-memory: 33554432

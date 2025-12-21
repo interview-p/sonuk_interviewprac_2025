@@ -25,7 +25,7 @@ public class ProducerConfig {
 
 	        config.put(org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG, "all");
 	        config.put(org.apache.kafka.clients.producer.ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
-	        config.put(org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG, 50);
+	        //config.put(org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG, 5000);
 	        config.put(org.apache.kafka.clients.producer.ProducerConfig.BATCH_SIZE_CONFIG, 32768);
 
 	        return new DefaultKafkaProducerFactory<>(config);

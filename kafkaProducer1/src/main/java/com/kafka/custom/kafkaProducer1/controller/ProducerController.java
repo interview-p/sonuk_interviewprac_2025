@@ -17,8 +17,20 @@ public class ProducerController {
     }
 
     @GetMapping("/{msg}")
-    public String sendMsg(@PathVariable String msg) {
-        kafkaTemplate.send("topic-A", msg);
-        return "Message sent: " + msg;
+    public String sendMsg1(@PathVariable String msg) {
+    	for (int i = 0; i < 10; i++) {
+            kafkaTemplate.send(
+                "topic-A",
+                "key-" + i,        // 🔑 KEY
+                msg + "-" + i
+            );
+        }
+        return "sent";
+    }
+    @GetMapping("/msg1/{msg1}")
+    public String sendMsg2(@PathVariable String msg1) {
+  
+        kafkaTemplate.send("topic-A", msg1);
+        return "sent";
     }
 }
