@@ -48,7 +48,6 @@ spring:
       retries: 5
       linger-ms: 5
       enable-idempotence: true
-
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 

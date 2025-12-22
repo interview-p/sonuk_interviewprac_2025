@@ -1,0 +1,18 @@
+here how Deadlock happen:->
+
+here from orderservice call reserveStock method of inventory service and inventoryService 
+call reserveStock from orderservice both method are synchronized it's mean when we call 
+rest api from browser a thread intiated by springboot mainlly two different one for order and 
+one for inventory.
+
+t1- order
+t2- inventory
+
+t1 hit first and enter into orderService method and apply lock on orderservice class(object)
+and t1 goes into sleep
+now t2 enter into inventoryService and acquire lock and go to sleep after this when t1 try to
+acquire inventoryservice it see it lock by t1 and t1 goes to BLOCKED state same 
+t2 goes to orderService and see it is acquire by t1 so t2 goes to BLOCKED
+
+#@Lazy -> used because order and inventory is singleton object and try to inject their dependency
+at runtime and not found so circular dependency error come to solve this use @Lazy

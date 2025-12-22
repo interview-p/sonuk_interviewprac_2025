@@ -14,13 +14,13 @@ public class PaymentConsumer {
 		        containerFactory = "paymentListenerFactory"
 		    )
 		    public void consume(
-		            Payment payment,
+		            String payment,
 		            Acknowledgment ack,
-		            ConsumerRecord<String, Payment> record) {
+		            ConsumerRecord<String, String> record) {
 
 		        System.out.println("Processing payment: " + payment);
-
-		        if (!payment.isSuccess()) {
+                String[] x = payment.split("_");
+		        if (!x[1].equals("success")) {
 		            // ❌ This triggers retry
 		            throw new RuntimeException("Payment failed");
 		        }

@@ -13,7 +13,8 @@ public class Payment {
     private boolean success;
     
 	public Payment(String orderId2, boolean paymentSuccess) {
-		// TODO Auto-generated constructor stub
+		this.orderId=orderId2;
+		this.success = paymentSuccess;
 	}
 	public String getOrderId() {
 		return orderId;

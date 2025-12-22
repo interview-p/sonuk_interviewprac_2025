@@ -18,11 +18,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class KafkaConsumerConfig {
 
 	 @Bean
-	    public ConcurrentKafkaListenerContainerFactory<String, Payment> paymentListenerFactory(
-	            ConsumerFactory<String, Payment> consumerFactory,
-	            KafkaTemplate<String, Object> kafkaTemplate) {
+	    public ConcurrentKafkaListenerContainerFactory<String, String> paymentListenerFactory(
+	            ConsumerFactory<String, String> consumerFactory,
+	            KafkaTemplate<String, String> kafkaTemplate) {
 
-	        ConcurrentKafkaListenerContainerFactory<String, Payment> factory =
+	        ConcurrentKafkaListenerContainerFactory<String, String> factory =
 	                new ConcurrentKafkaListenerContainerFactory<>();
 
 	        factory.setConsumerFactory(consumerFactory);
@@ -49,6 +49,9 @@ public class KafkaConsumerConfig {
 	                        }}
 	                );
 
+	     // 🔥 THIS IS THE MOST IMPORTANT LINE
+	        errorHandler.setCommitRecovered(true);
+	        
 	        // ✅ Add headers to DLQ
 	        errorHandler.addRetryableExceptions(RuntimeException.class);
 
@@ -56,5 +59,4 @@ public class KafkaConsumerConfig {
 
 	        return factory;
 	    }
-	 
 }

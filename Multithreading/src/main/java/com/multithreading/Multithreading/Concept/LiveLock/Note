@@ -1,0 +1,56 @@
+✅ What is Livelock?
+
+Livelock occurs when threads are active and running, but no useful work is completed
+Threads keep reacting to each other and retrying endlessly
+System appears alive, but progress = 0
+
+❓ Why Livelock Occurs
+
+Symmetric retry behavior
+Multiple threads retry at the same time
+Same timeout, same logic
+Immediate retries
+No delay between retries
+Threads collide again instantly
+Over-polite lock release
+Threads release locks to avoid deadlock
+But retry too quickly
+No retry limit
+Infinite retry loops (while(true))
+Nested retries
+Multiple layers retry independently
+Amplifies contention
+
+Solutions to Livelock
+
+Bounded retries
+Limit retry attempts
+Backoff strategy
+Add delay between retries
+Randomized jitter
+Desynchronize retry timing
+Single retry owner
+Retry only at top-level service
+Fail fast in lower layers
+No nested retries
+
+:- in code we make create situation of livelock by just make two changes use while loop 
+which run indefinitly and use continue in catch block where Retryable exception throw
+
+summary-> in simple word like in deadlock both thread goes in blocked state and then shutdown
+but in livelock both thread unlock themself using ReentrantLock lock but no progress hapen forward
+
+execution step->
+
+order thread -T1
+inventory thread - T2
+
+senarion1:- (both service acquire by T1 when we not hit inventory service)
+
+senario2:-(both service hit at same time)
+T1 acquire orderService
+T2 acquire inventoryservice
+T1 try to acquire inventory but lock exist and it throw exception
+exception return and T1 call backoff where T1 goes into sleep
+now T2 try to acquire order but don't than exception throw and T2 unlock it'self
+now when T1 awake T1 acquire inventory

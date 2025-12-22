@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderConsumer {
 
-	  private final KafkaTemplate<String, Payment> kafkaTemplate;
+	  private final KafkaTemplate<String, String> kafkaTemplate;
 
-	    public OrderConsumer(KafkaTemplate<String, Payment> kafkaTemplate) {
+	    public OrderConsumer(KafkaTemplate<String, String> kafkaTemplate) {
 	        this.kafkaTemplate = kafkaTemplate;
 	    }
 
@@ -18,10 +18,10 @@ public class OrderConsumer {
 	        groupId = "order-group",
 	        concurrency = "3"
 	    )
-	    public void consume(Order order) {
+	    public void consume(String order) {
 	        boolean paymentSuccess = Math.random() > 0.5;
-
-	        Payment payment = new Payment(order.getOrderId(), paymentSuccess);
+            String payment = order+"_"+"successs";
+	        //Payment payment = new Payment(order, paymentSuccess);
 	        kafkaTemplate.send("payment-topic", payment);
 	    }
 	    

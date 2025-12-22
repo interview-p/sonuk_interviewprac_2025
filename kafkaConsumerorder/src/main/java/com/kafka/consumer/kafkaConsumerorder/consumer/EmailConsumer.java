@@ -12,9 +12,10 @@ public class EmailConsumer {
 		        groupId = "email-group",
 		        concurrency = "2"
 		    )
-		    public void consume(Payment payment) {
-		        if (payment.isSuccess()) {
-		            System.out.println("Email sent for order " + payment.getOrderId());
+		    public void consume(String payment) {
+	        	    String[] x = payment.split("_");
+		        if (x[1].equals("success")) {
+		            System.out.println("Email sent for order " + x[0]);
 		        }
 		    }
 }
