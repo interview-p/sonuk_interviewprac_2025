@@ -50,7 +50,24 @@ public class Notes {
 	  7> Input Object types
 	  
 	  8> Directives
-	       
+	  
+	  9> GraphQL only defines what data looks like (schema).Resolvers define where the data comes from.
+	     Resolver is basically the method we write in controller class. and 
+	     only one endpoint per resource say /graphql
+	     ❌ Thinking controller = resolver
+         ✔️ Resolver = method annotated with @QueryMapping, @MutationMapping, @SchemaMapping 
+	     resolver is something that fetch data for use
+	     Resolver runs only if field is requested
+	     
+🔁 Execution is NOT sequential
+
+GraphQL builds an execution tree and runs:
+
+Independent resolvers in parallel
+
+Dependent resolvers after parent
+
+➡️ This is why GraphQL can be very fast.
 	       
 	
 	

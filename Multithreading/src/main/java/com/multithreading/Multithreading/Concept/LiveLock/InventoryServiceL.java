@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
-public class InventoryService {
+public class InventoryServiceL {
 
-	 private final OrderService orderService;
+	 private final OrderServiceL orderService;
 	    private final ReentrantLock inventoryLock = new ReentrantLock();
 
-	    public InventoryService(@Lazy OrderService orderService) {
+	    public InventoryServiceL(@Lazy OrderServiceL orderService) {
 	        this.orderService = orderService;
 	    }
 

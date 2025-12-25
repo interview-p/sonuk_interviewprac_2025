@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderService {
+public class OrderServiceL {
 
-	private final InventoryService inventoryService;
+	private final InventoryServiceL inventoryService;
     private final ReentrantLock orderLock = new ReentrantLock();
 
     private static final int MAX_RETRIES = 5;
 
-    public OrderService(@Lazy InventoryService inventoryService) {
+    public OrderServiceL(@Lazy InventoryServiceL inventoryService) {
         this.inventoryService = inventoryService;
     }
 

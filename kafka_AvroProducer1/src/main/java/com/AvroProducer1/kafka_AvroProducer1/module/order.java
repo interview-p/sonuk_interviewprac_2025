@@ -1,4 +1,4 @@
-package com.kafka.custom.kafkaProducer1.controller;
+package com.AvroProducer1.kafka_AvroProducer1.module;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class order {
 
 	 private String orderId;
 	    private String product;
@@ -30,6 +30,4 @@ public class Order {
 		public void setAmount(double amount) {
 			this.amount = amount;
 		}
-	    
-	    
 }

@@ -4,7 +4,7 @@ package com.multithreading.Multithreading.Concept.DeadLock;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/deadlock")
 public class DeadlockController {
 
 	private final OrderService orderService;
@@ -23,14 +23,14 @@ public class DeadlockController {
         this.orderService1 = orderService1;
     }
 
-    @GetMapping("/order")
+    @GetMapping("/orderd")
     public String order() {
     	     String threadname = "order-thread";
         orderService.placeOrder(threadname);
         return "order placed";
     }
 
-    @GetMapping("/inventory")
+    @GetMapping("/inventoryd")
     public String inventory() {
     	String threadname = "order-thread";
         inventoryService.reserveStock(threadname);

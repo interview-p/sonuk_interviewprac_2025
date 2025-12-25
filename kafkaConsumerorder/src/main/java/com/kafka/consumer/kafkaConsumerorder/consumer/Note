@@ -1,0 +1,14 @@
+this is example of consumer+retry+dlq
+
+what happining in this :-
+
+first producer send message to order topic . it receive by orderConsumer and try to make paymet
+where we use random success and failed instead of calling actual payment service once
+payment done it produce to payment-topic . than it receive by paymetconsumer where
+we just check success or fail if success we ack if not we throw runtime exception 
+which is catch in kafkaConsumerConfig  class where DefaultErrorHandler introduce which
+accept exception and produce this message to paymet-dlq(topic)
+if payment success emailconsumer consume message from payment topic and sent email.
+
+and retry logic also there which is backoff mean after 2 sec it make one rety than again
+check 4 sec than 8 sec mean time increase expotially after 3 attemp message publish to paymettopic  

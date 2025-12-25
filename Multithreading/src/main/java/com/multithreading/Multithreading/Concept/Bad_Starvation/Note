@@ -1,0 +1,66 @@
+Starvation occurs when a thread never gets CPU time or required resources because other
+threads continuously dominate them
+
+why startvation occure:-
+
+Unfair locks - Default synchronized / ReentrantLock(false) - to solve make reetrant alway true
+High-priority threads - Low-priority threads never scheduled - to solve 
+Busy loops - One thread hogs CPU - use thread.sleep() so that 
+Thread pool saturation - Long tasks block short ones - to solve use different thread pool
+Database / external resource monopolization - Same thread repeatedly acquires connection
+
+Starvation happens when a thread is perpetually denied CPU or resources due to unfair 
+scheduling or resource monopolization by other threads.
+in BAD code we can see order thread run in infinite loop and than slept for 50 ms not retry logic 
+is there so that if othere thread come and when order thread unlock for a while other thread acquire
+lock suddenly. again it is infite loop order thread acruire lock again. mean report thread never get chance
+
+
+what's wrong with code
+Unfair lock
+Infinite loop
+Single thread pool
+No timeout
+No priority control
+
+to solve the startVation we resolve above issue. how can we do that
+as you can see in code of correct form 
+unfair lock - use ReentrantLock lock = new ReentrantLock(true); which return true after time given in parameter 200 ms for order and 500 ms for report
+infinite loop - remove
+single thread pool - use two different pool faster one have more thread than slower
+no timeout - we mention trylock(200,milisecound) mean other thread try one 200ms sec if lock acquire
+             than ok otherwise leave
+             
+             
+GOOD code summary -> as we can see we use fair lock becase we use retry logic and remove infinite loop
+as well we reduce sleep timing 
+
+execution order
+1> we hit order api first it acquire lock and goes sleep for 50 ms 
+2> when report thread come it check lock acquired than it goes into wait status since we use 
+3> 200ms in order thread report thread check lock free or not if found lock not free again wait
+4> multiple time retry by report thread change when order thread unlock than we use thread.yield()
+5> when order thread execute thread.yield() it's mean order thread still running but it leave
+6> cpu for time being at that point of time report thread acquire lock in that case you see
+7> "generating report message"
+8> when report thread execute apply lock and goes into sleep for 5 sec . sleep time is higher than
+9> report thread it's mean lock persist and order thread when execute it show order retry multiple
+10> time
+
+important we must loop Thread.yield() so that one thread allow other thread to execute if it is slow
+and other is fast
+Thread.yield()->
+Release locks ❌
+Put thread to sleep ❌
+Block the thread ❌
+
+Thread.yield() is a cooperative scheduling hint used to reduce CPU hogging in tight loops. 
+It does not release locks or guarantee fairness and should not be relied on for correctness.
+Thread.yield() helps only AFTER the lock is released, by preventing the same thread from
+immediately re-acquiring the CPU.
+Thread.yield() does not release locks or block threads. It only hints the scheduler to pause the
+current thread after releasing the lock, allowing other runnable threads to be scheduled and
+reducing starvation
+
+
+

@@ -15,4 +15,4 @@ acquire inventoryservice it see it lock by t1 and t1 goes to BLOCKED state same
 t2 goes to orderService and see it is acquire by t1 so t2 goes to BLOCKED
 
 #@Lazy -> used because order and inventory is singleton object and try to inject their dependency
-at runtime and not found so circular dependency error come to solve this use @Lazy
+at runtime and at same time so circular dependency error come to solve this use @Lazy

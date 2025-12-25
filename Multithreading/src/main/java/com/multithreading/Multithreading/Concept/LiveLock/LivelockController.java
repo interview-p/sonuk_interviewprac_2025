@@ -4,16 +4,16 @@ package com.multithreading.Multithreading.Concept.LiveLock;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class DeadlockController {
+@RestController("/livelock")
+public class LivelockController {
 
-	private final OrderService orderService;
-    private final InventoryService inventoryService;
+	private final OrderServiceL orderService;
+    private final InventoryServiceL inventoryService;
     
  
 
-    public DeadlockController(OrderService orderService,
-                              InventoryService inventoryService) {
+    public LivelockController(OrderServiceL orderService,
+                              InventoryServiceL inventoryService) {
         this.orderService = orderService;
         this.inventoryService = inventoryService;
     }
