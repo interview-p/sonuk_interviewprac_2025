@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
 
   # =======================================================================
@@ -20,7 +18,9 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://broker-1:9092,PLAINTEXT://broker-2:9092,PLAINTEXT://broker-3:9092,PLAINTEXT://broker-4:9092,PLAINTEXT://broker-5:9092
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: broker-1:9092,broker-2:9092,broker-3:9092,broker-4:9092,broker-5:9092
+    networks:
+      - kafka-net
     restart: unless-stopped
 
   # =======================================================================
@@ -45,6 +45,8 @@ services:
       - broker-3
       - broker-4
       - broker-5
+    networks:
+      - kafka-net
     restart: unless-stopped
 
   # =======================================================================
@@ -54,6 +56,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: controller-1
     hostname: controller-1
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 1
@@ -79,6 +83,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: controller-2
     hostname: controller-2
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 2
@@ -104,6 +110,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: controller-3
     hostname: controller-3
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 3
@@ -132,6 +140,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: broker-1
     hostname: broker-1
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 101
@@ -173,6 +183,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: broker-2
     hostname: broker-2
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 102
@@ -206,10 +218,15 @@ services:
       - controller-3
     restart: unless-stopped
 
+  # =======================================================================
+  # Remaining brokers (broker-3, broker-4, broker-5)
+  # =======================================================================
   broker-3:
     image: confluentinc/cp-kafka:7.6.0
     container_name: broker-3
     hostname: broker-3
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 103
@@ -242,6 +259,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: broker-4
     hostname: broker-4
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 104
@@ -270,6 +289,8 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: broker-5
     hostname: broker-5
+    networks:
+      - kafka-net
     environment:
       CLUSTER_ID: Oa29KcIOQqOas7UtQbKEDg
       KAFKA_NODE_ID: 105
@@ -306,3 +327,10 @@ volumes:
   broker3_data:
   broker4_data:
   broker5_data:
+
+# =======================================================================
+# NETWORKS
+# =======================================================================
+networks:
+  kafka-net:
+    external: true
