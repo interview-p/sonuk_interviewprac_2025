@@ -14,6 +14,9 @@ public class DebeziumConsumer {
 
        GenericRecord value = record.value();
 
+       if (false) {
+           throw new RuntimeException("Invalid message");
+       }
        System.out.println("Received event: " + value);
 
        ack.acknowledge();

@@ -1,0 +1,59 @@
+@Async works internally
+
+@Async uses Spring AOP proxy
+Method call must go through proxy, not this.method()
+Internally delegates execution to a TaskExecutor
+ -> Spring doesn’t create threads for @Async. It delegates execution to a TaskExecutor, which internally uses a thread pool to run the method asynchronously
+ 
+ why @Async required proxy to run 
+ 
+Spring does NOT create threads itself when you use @Async.
+Instead, it hands over your method execution to an object whose job is to run tasks
+using threads — that object is a TaskExecutor
+
+1️> You call the method
+paymentService.processPayment();();
+
+2️>Spring proxy intercepts the call
+Because of @Async, Spring replaces your bean with a proxy.
+Caller → Proxy → (intercepted)
+
+3️> Proxy wraps method into a Runnable -> Spring converts your method call into a task:
+Runnable task = () -> sendEmail();
+
+4️> Proxy submits task to TaskExecutor
+taskExecutor.execute(task);
+
+5️>TaskExecutor decides HOW to run it
+Create a new thread, Reuse a thread, Queue it, Reject it
+
+
+execution flow ->
+Controller Thread
+      |
+      ▼
+Spring Proxy
+      |
+      ▼
+TaskExecutor.execute(Runnable)
+      |
+      ▼
+ThreadPoolExecutor
+      |
+      ▼
+Worker Thread executes method
+
+TaskExecutor is Spring’s abstraction over Java thread pools.
+If you don’t define your own executor, Spring uses: SimpleAsyncTaskExecutor
+ 1. Unlimited threads 2. No pooling 3. Dangerous under load
+ 
+ ✅ 1. Difference: Executor vs ExecutorService
+ Executor:- Only executes a task , No lifecycle control ,No result handling ,Fire-and-forget
+ Limitation - No Future , No shutdown , No task tracking
+ 
+ ExecutorService - Submit tasks and get results , Cancel tasks , Graceful shutdown ,Timeout handling
+ 
+ 
+ When Spring sees @Async, it looks for an executor in this exact order:
+ if we define any Executor spring automatically choose this or we can explicitly use own
+ TaskExecutor and by default spring use simpleAsynCTaskExecutor

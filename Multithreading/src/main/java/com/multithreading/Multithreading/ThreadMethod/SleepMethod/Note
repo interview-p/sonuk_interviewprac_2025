@@ -1,0 +1,41 @@
+when we write
+“My thread will run again exactly after 1000 ms”
+correct meaning - “Do NOT schedule this thread for at least 1000 ms”
+
+Internally:
+Thread.sleep(1000);
+JVM makes a system call to the OS
+OS marks the thread as TIMED_WAITING
+Thread is removed from the CPU run queue
+A timer is registered for 1000 ms
+After 1000 ms:
+Thread becomes RUNNABLE
+NOT running yet ❗
+OS scheduler decides when CPU is available
+Thread finally runs
+
+#Why delay happens after sleep ends
+
+Even after sleep time expires, the thread may wait because:
+OS scheduling reasons
+CPU is busy
+Higher-priority threads are running
+Context switching overhead
+GC pause
+OS timer granularity
+
+# Best practices (production-grade)
+✅ Use sleep() for:
+
+Backoff
+Retry delay
+Polling loops
+❌ Do NOT use sleep() for:
+Precise timing
+Scheduling tasks
+Coordination between threads
+Use instead:
+ScheduledExecutorService
+wait/notify
+Latches, semaphores
+

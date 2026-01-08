@@ -1,0 +1,38 @@
+this is the sample code of how springboot use interrupt
+we use async with interrupt
+
+action:- when we shutdown app spring call following step
+
+@Async method running on payment-async-1
+
+SIGTERM / context.close()
+        ↓
+Spring calls executor.shutdownNow()
+        ↓
+ThreadPoolExecutor interrupts worker thread
+        ↓
+Thread.sleep() throws InterruptedException
+        ↓
+You restore interrupt
+        ↓
+Loop exits
+        ↓
+Task finishes
+        ↓
+Spring shuts down cleanly
+
+
+
+In Spring, @Async tasks run on a ThreadPoolExecutor. During shutdown or cancellation, 
+Spring interrupts the worker thread. The async method must handle InterruptedException 
+properly; otherwise, tasks may prevent graceful shutdown
+
+
+Spring does NOT require re-interrupt just to shut down.
+
+Spring requires re-interrupt so that:
+Cancellation propagates
+Executors behave correctly
+Higher layers can react
+Future cancellation works
+Code is composable
