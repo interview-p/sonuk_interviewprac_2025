@@ -32,7 +32,7 @@ public class WaitNotifyLostSignal {
     
     /*
      here due to incorrect ordering of wait and notify waiter always waiting and thread
-     nerver became destroy
+     never became destroy
      Deadlock caused by lost signal
     🧠 Why wait/notify fails
     notify() does NOT remember anything

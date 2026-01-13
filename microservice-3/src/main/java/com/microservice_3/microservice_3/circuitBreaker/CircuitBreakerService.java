@@ -26,7 +26,7 @@ public class CircuitBreakerService {
 	    @CircuitBreaker(name = "remoteService", fallbackMethod = "fallback")
 	    //@Retry(name = "remoteServiceRetry", fallbackMethod = "retryfallback")
 	    public String callRemoteService() {
-	        String url = "http://localhost:8080/circuit/api/data"; // Third-party service URL
+	        String url = "http://localhost:8084/micro4/microservice4/circuit/api/data"; // Third-party service URL
 	        return restTemplate.getForObject(url, String.class);
 	    }
 	    

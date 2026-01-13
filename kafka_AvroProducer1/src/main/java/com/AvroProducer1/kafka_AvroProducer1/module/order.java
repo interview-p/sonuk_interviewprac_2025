@@ -11,7 +11,7 @@ public class order {
 
 	 private String orderId;
 	    private String product;
-	    private double amount;
+	    private String amount;
 		public String getOrderId() {
 			return orderId;
 		}
@@ -24,10 +24,10 @@ public class order {
 		public void setProduct(String product) {
 			this.product = product;
 		}
-		public double getAmount() {
+		public String getAmount() {
 			return amount;
 		}
-		public void setAmount(double amount) {
+		public void setAmount(String amount) {
 			this.amount = amount;
 		}
 }

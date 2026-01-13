@@ -1,0 +1,28 @@
+in this project we are handle transaction when we write data to DB and Kafka both at same time
+
+if we do like 
+
+@Transaction
+public void custom(Order e){
+  dbrepo.save(e);
+  kafkaTemplate.send("order-topic",e);
+  
+  }
+  
+When we mention
+spring.kafka.producer.transaction-id-prefix=order-id
+in the properties file, Spring automatically creates a Kafka transaction.
+If we also use the @Transactional annotation, Spring creates a JPA transaction at the same time.
+As a result, two different transactions (Kafka and JPA) are started simultaneously, which Spring cannot manage as a single atomic transaction.
+When the application runs with this configuration, it may throw a BeanCreationException or transaction-related exceptions due to conflicting transaction managers.
+To handle both transactions together, we can use a ChainedTransactionManager, as defined in the TransactionConfig.java file in the project.
+However, this approach does not provide true atomicity and is not recommended for production use.
+To properly handle this scenario, we use the Outbox Pattern.
+In this approach:
+We create a method that saves the domain entity to the database.
+At the same time, we save a corresponding OutboxEvent entity in the same database transaction.
+A scheduler or background processor then fetches records from the OutboxEvent table and publishes the messages to Kafka using a Kafka producer.
+This ensures data consistency between the database and Kafka without relying on distributed transactions.
+
+ 
+  

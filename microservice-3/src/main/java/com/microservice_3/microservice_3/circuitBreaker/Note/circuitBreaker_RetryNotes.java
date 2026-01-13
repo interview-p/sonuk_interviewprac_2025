@@ -37,7 +37,7 @@ Event visibility: Retry events appear in /actuator/retryevents only after retrie
 
 retry machism prevent unnecessary fallback how it prevent - i attemp 5 time each attempt
 as per our configuration in background system attempt three 3 to call third party service
-if one call success in three and in secound user attempt 2 retry success and 1 failed it's mean
+if one call success in three and same as if  secound user attempt 2 retry success and 1 failed it's mean
 it's system is unstable(some time response come some time not) but completly not work it's mean
 partially system is working if retry machism is not introduce circuit open and after fixed time
 which set in properties we can hit so these type of situation handle by retry. 

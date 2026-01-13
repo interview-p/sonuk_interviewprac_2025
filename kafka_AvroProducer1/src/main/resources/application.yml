@@ -13,3 +13,5 @@ spring:
       buffer-memory: 33554432
       properties:
         schema.registry.url: http://localhost:8081
+      transaction-id-prefix: order-tx-
+

@@ -12,4 +12,8 @@ public class controller {
 	public String check_test() {
 	      return "Hai this is microservice-4";
 	 }
+	@GetMapping("/circuit/api/data")
+	public String check_test1() {
+	      return "Hai this is microservice-4";
+	 }
 }

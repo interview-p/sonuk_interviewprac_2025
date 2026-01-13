@@ -18,6 +18,8 @@ public class ProducerController {
 
 	@Autowired
     private KafkaTemplate<String, order> kafkaTemplate;
+    
+   
 
     @PostMapping("/order")
     public ResponseEntity<String> createOrder(@RequestBody order order) {
@@ -26,4 +28,6 @@ public class ProducerController {
 
         return ResponseEntity.ok("Order sent successfully");
     }
+    
+   
 }

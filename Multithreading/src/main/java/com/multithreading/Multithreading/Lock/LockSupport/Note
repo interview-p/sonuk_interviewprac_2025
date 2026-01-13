@@ -1,0 +1,13 @@
+LockSupport is used in place of wait and notify because if we not use wait/notify in proper 
+oreder deadlock condition araise because when we call notify() it does not hold signal
+it lost so when we call notify() before wait() the signal because lost and thread where
+we call wait() goes into sleep status and never became awake
+
+but in LockSupport we use park() and unpark() 
+when we call unpark(Threadname(T1)) inside any thread(T2)  . jvm store one permit for T1
+same way if we call LockSupport.park() inside thread T2 jvm remove this permit and permit
+became for T2 is = 0 and once permit is 0 jvm block this thread than OS schedular schedule
+other thread to get run.
+
+if we call LockSupport.park() than again call LocalSUpport.park() permit still 0 not -1
+same way if we call LocalSupport.unpark() than again LocalSupport.unpark() permit still 1 not 2    
