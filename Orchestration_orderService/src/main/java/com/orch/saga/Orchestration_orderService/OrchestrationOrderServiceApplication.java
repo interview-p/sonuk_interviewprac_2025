@@ -1,0 +1,13 @@
+package com.orch.saga.Orchestration_orderService;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class OrchestrationOrderServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(OrchestrationOrderServiceApplication.class, args);
+	}
+
+}
