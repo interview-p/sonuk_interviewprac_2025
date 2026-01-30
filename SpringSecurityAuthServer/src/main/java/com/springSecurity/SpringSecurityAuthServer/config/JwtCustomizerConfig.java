@@ -1,12 +1,11 @@
 package com.springSecurity.SpringSecurityAuthServer.config;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
@@ -21,20 +20,35 @@ public class JwtCustomizerConfig {
 
         return context -> {
 
-            if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
+        	 if (!OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
+                 return;
+             }
 
-                Authentication authentication = context.getPrincipal();
+             Authentication authentication = context.getPrincipal();
 
-                if (authentication.getPrincipal() instanceof UserDetails user) {
+             Set<String> roles = new HashSet<>();
+             Set<String> authorities = new HashSet<>();
+             roles.add("sonu");
+             roles.add("kumar");
 
-                    Set<String> authorities = user.getAuthorities()
-                            .stream()
-                            .map(GrantedAuthority::getAuthority)
-                            .collect(Collectors.toSet());
+             // 1️⃣ OAuth2 authorities (scopes / permissions)
+             authentication.getAuthorities().forEach(a ->
+                     authorities.add(a.getAuthority())
+             );
 
-                    context.getClaims().claim("authorities", authorities);
-                }
-            }
+             // 2️⃣ Extract roles from UserDetails
+             Object principal = authentication.getPrincipal();
+
+             if (principal instanceof UserDetails userDetails) {
+                 userDetails.getAuthorities().forEach(a -> {
+                     if (a.getAuthority().startsWith("ROLE_")) {
+                         roles.add(a.getAuthority());
+                     }
+                 });
+             }
+
+             context.getClaims().claim("roles", roles);
+             context.getClaims().claim("authorities", authorities);
         };
     }
 }
